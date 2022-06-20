@@ -1,5 +1,7 @@
 #include "Commands.h"
 
+
+//opens a file and constructs an Image
 void Commands::open(const std::string& _fileName) {
 	std::fstream file(_fileName, std::ios::in | std::ios::binary);
 	if (file.is_open()) {
@@ -27,6 +29,9 @@ void Commands::open(const std::string& _fileName) {
 	file.close();
 }
 
+
+//deallocates all the image pointers in all sessions
+//and clears all sessions
 void Commands::close() {
 	for (Session s : sessions) {
 		for (auto iptr : s.getImages()) {
@@ -41,22 +46,20 @@ void Commands::help() {
 	std::cout << "The following commands are supported:\n";
 	std::cout << "open <file>												  opens <file>\n";
 	std::cout << "close										  closes currently opened file\n";
-	std::cout << "save										 saves the currently open file\n";
-	std::cout << "saveas <file>					   saves the currently open file in <file>\n";
+	std::cout << "save	<file>									 saves the currently open <file>\n";
+	std::cout << "saveas <file1> <file2>				   saves the currently open <file1> in <file2>\n";
 	std::cout << "help											   prints this information\n";
 	std::cout << "exit													exists the program\n";
 	std::cout << "monocrome									 converts a file to monochrome\n";
 	std::cout << "grayscale									  converts a file to grayscale\n";
 	std::cout << "negative									   converts a file to negative\n";
-	std::cout << "rotate <direction>			rotates a picture in direction <direction>\n";
 	std::cout << "undo							   undoes a previously made transformation\n";
 	std::cout << "session info						  gives info about the current session\n";
 	std::cout << "add <image>							 adds another image to the session\n";
 	std::cout << "switch <id>							switches to a session with id <id>\n";
-	std::cout << "collage <direction> <image1> <image2> <outimage>         	 saves the currently open file\n";
-
 }
 
+//exits the programme
 void Commands::exit() {
 	for (Session s : sessions) {
 		if (!s.getSaved()) {
@@ -67,6 +70,7 @@ void Commands::exit() {
 	std::cout << "Exiting program...\n";
 }
 
+// @parameter _id = the session's id that the user wants to switch to
 void Commands::switchSession(std::string _id) {
 	if (std::stoi(_id) > sessions.size()) {
 		std::cout << "Session with id " << _id << "doesn't exist!\n";
@@ -78,10 +82,12 @@ void Commands::switchSession(std::string _id) {
 	}
 }
 
+//prints the current session's info(images in the session and pending transformations)
 void Commands::sessionInfo() {
 	currentSession.printSession();
 }
 
+//undoes the final transformation if there is one
 void Commands::undo() {
 	if (currentSession.getTransformations().size() == 0) {
 		std::cout << "There aren't any transformations to be undone!\n";
@@ -91,6 +97,12 @@ void Commands::undo() {
 	}
 }
 
+//By the project requirements:
+//when adding an image all of the transformations that are pending
+//are not made on the newly added image
+//Therefore, when adding a new picture
+//all of the pending transformations are done on the images
+//and then the new image is added
 void Commands::add(const std::string& _fileName) {
 	for (int i = 0; i < currentSession.getImages().size(); i++) {
 		for (int j = 0; j < currentSession.getTransformations().size(); j++) {
@@ -110,6 +122,9 @@ void Commands::add(const std::string& _fileName) {
 	open(_fileName);
 }
 
+
+//searches for the file in the current session
+//if it is found then saves it
 void Commands::save(std::string _fileName) {
 	for (int i = 0; i < currentSession.getImages().size(); i++) {
 		if (_fileName != currentSession.getImages().at(i)->getFileName()) {
@@ -162,6 +177,10 @@ void Commands::save(std::string _fileName) {
 	}
 }
 
+
+//same as save function
+//searches for oldFile in the current session
+//then saves the file into newFile
 void Commands::saveas(std::string oldFile, std::string newFile) {
 	for (int i = 0; i < currentSession.getImages().size(); i++) {
 		if (oldFile != currentSession.getImages().at(i)->getFileName()) {
@@ -211,31 +230,22 @@ void Commands::saveas(std::string oldFile, std::string newFile) {
 	}
 }
 
-
+//pushes the transformation to the current session's transformation vector
 void Commands::grayscale() {
-	//delete for when at the final
-	for (int i = 0; i < currentSession.getImages().size(); i++) {
-		currentSession.getImages().at(i)->grayscale();
-	}
 	currentSession.getTransformations().push_back("grayscale");
 }
 
+//pushes the transformation to the current session's transformation vector
 void Commands::monochrome() {
-	//delete for when at the final
-	for (int i = 0; i < currentSession.getImages().size(); i++) {
-		currentSession.getImages().at(i)->monochrome();
-	}
 	currentSession.getTransformations().push_back("monochrome");
 }
 
+//pushes the transformation to the current session's transformation vector
 void Commands::negative() {
-	//delete for when at the final
-	for (int i = 0; i < currentSession.getImages().size(); i++) {
-		currentSession.getImages().at(i)->negative();
-	}
 	currentSession.getTransformations().push_back("negative");
 }
 
+//reads the format in order to construct the correct image format
 void Commands::readFormat(std::string _fileName) {
 	std::ifstream file(_fileName);
 	if (file.is_open()) {

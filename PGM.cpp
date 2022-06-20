@@ -44,16 +44,3 @@ void PGM::negative() {
 		}
 	}
 }
-
-void PGM::monochrome() {
-	for (size_t i = 0; i < height; i++) {
-		for (size_t j = 0; i < width; j++) {
-			if ((unsigned)pixels[i][j] < maxValue / 2) {
-				pixels[i][j] = 0;
-			}
-			else {
-				pixels[i][j] = (unsigned char)maxValue;
-			}
-		}
-	}
-}

@@ -92,19 +92,16 @@ unsigned int Image::getPpmWidth() const {
 	return ppmWidth;
 }
 
-//void Image::monochrome() {
-//	for (size_t i = 0; i < height; i++) {
-//		for (size_t j = 0; i < width; j++) {
-//			if (pixels[i][j] > maxValue / 2) {
-//				pixels[i][j] = 0;
-//			}
-//			else {
-//				pixels[i][j] = (unsigned char)maxValue;
-//			}
-//		}
-//	}
-//}
+void Image::monochrome() {
+	for (size_t i = 0; i < height; i++) {
+		for (size_t j = 0; i < width; j++) {
+			if (pixels[i][j] > maxValue / 2) {
+				pixels[i][j] = 0;
+			}
+			else {
+				pixels[i][j] = (unsigned char)maxValue;
+			}
+		}
+	}
+}
 
-//void Image::rotate(std::string direction) {
-//
-//}

@@ -1,6 +1,6 @@
 #pragma once
 #include "Image.h"
-// not done
+// NOT IMPLEMENTED
 class PBM : public Image
 {
 public:

@@ -82,28 +82,15 @@ void PPM::negative() {
 				blue = pixels[i][j];
 				blueIndex = j;
 
-				unsigned char negativeRed = red - maxValue;
-				unsigned char negativeGreen = green - maxValue;
-				unsigned char negativeBlue = blue - maxValue;
+				unsigned char negativeRed = maxValue - red;
+				unsigned char negativeGreen = maxValue - green;
+				unsigned char negativeBlue = maxValue - blue;
 
 				pixels[i][redIndex] = negativeRed;
 				pixels[i][greenIndex] = negativeGreen;
 				pixels[i][blueIndex] = negativeBlue;
 
 				counter = 0;
-			}
-		}
-	}
-}
-
-void PPM::monochrome() {
-	for (size_t i = 0; i < height; i++) {
-		for (size_t j = 0; i < ppmWidth; j++) {
-			if (pixels[i][j] > maxValue / 2) {
-				pixels[i][j] = 0;
-			}
-			else {
-				pixels[i][j] = (unsigned char)maxValue;
 			}
 		}
 	}

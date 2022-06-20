@@ -1,6 +1,15 @@
 #pragma once
 #include "Image.h"
 
+/* Sessions class that represents a session in the programme
+*  
+* @variable id = the sessions id 
+* @variable transformations = vector of transformations in the session
+* @variable images = vector of Image pointers storing the images
+* @variable isSaved = used to check if the session is saved
+*
+*/
+
 class Session
 {
 private:

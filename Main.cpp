@@ -1,5 +1,11 @@
 #include "Commands.h"
 
+/* NB: materials used to create this programme are:
+* http://netpbm.sourceforge.net/doc/pgm.html
+* http://netpbm.sourceforge.net/doc/ppm.html
+* https://en.wikipedia.org/wiki/Netpbm#File_formats
+*/
+
 int main() {
 
 	Commands file;
